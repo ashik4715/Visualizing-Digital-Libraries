@@ -2,6 +2,7 @@
 FastAPI backend for Digital Library Visualization.
 """
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from pydantic import BaseModel
@@ -84,18 +85,26 @@ async def recluster_papers(method: str, n_clusters: int = 5):
     current_method = method
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
 async def root():
-    """Root endpoint."""
+    """Redirect root requests to the interactive Swagger docs."""
+    return RedirectResponse(url="/docs")
+
+
+@app.get("/api/info")
+async def api_info():
+    """API metadata and available endpoints."""
     return {
         "message": "Digital Library Visualization API",
         "version": "1.0.0",
+        "docs": "http://localhost:8000/docs",
         "endpoints": {
             "/api/papers": "Get all papers",
             "/api/clusters": "Get cluster information",
             "/api/cluster/{method}": "Re-cluster papers",
-            "/api/search": "Search papers"
-        }
+            "/api/search": "Search papers",
+            "/api/stats": "Get dataset statistics",
+        },
     }
 
 

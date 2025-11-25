@@ -72,6 +72,12 @@ python -m backend.api.main
 
 The API will be available at `http://localhost:8000`
 
+### API Explorer (Swagger UI)
+
+- Visit `http://localhost:8000/docs` for the interactive Swagger experience (the root URL redirects here automatically).
+- Use it to try every endpoint, inspect request/response schemas, and share live API examples.
+- The raw OpenAPI schema is also available at `http://localhost:8000/openapi.json`.
+
 ### Frontend Setup
 
 1. Navigate to the frontend directory:
@@ -93,6 +99,26 @@ npm run dev
 ```
 
 The frontend will be available at `http://localhost:3000`
+
+### 📁 Start Servers
+
+1. Backend
+
+```bash
+python run_backend.py
+```
+
+OR
+
+```bash
+uvicorn backend.api.main:app --reload
+```
+
+2. Frontend
+
+```bash
+npm run dev
+```
 
 ## 📁 Project Structure
 

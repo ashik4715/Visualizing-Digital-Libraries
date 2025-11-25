@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { Paper, Cluster, ClusteringMethod } from '@/lib/types';
-import { api } from '@/lib/api';
-import BubbleChart from '@/components/BubbleChart';
-import PaperCard from '@/components/PaperCard';
-import SearchBar from '@/components/SearchBar';
-import TopicFilter from '@/components/TopicFilter';
+import BubbleChart from "@/components/BubbleChart";
+import PaperCard from "@/components/PaperCard";
+import SearchBar from "@/components/SearchBar";
+import TopicFilter from "@/components/TopicFilter";
+import { api } from "@/lib/api";
+import { Cluster, ClusteringMethod, Paper } from "@/lib/types";
+import { useEffect, useState } from "react";
 
 // Color palette for clusters
 const CLUSTER_COLORS = [
-  '#3b82f6', // blue
-  '#10b981', // green
-  '#f59e0b', // amber
-  '#ef4444', // red
-  '#8b5cf6', // purple
-  '#ec4899', // pink
-  '#06b6d4', // cyan
-  '#84cc16', // lime
-  '#f97316', // orange
-  '#6366f1', // indigo
+  "#3b82f6", // blue
+  "#10b981", // green
+  "#f59e0b", // amber
+  "#ef4444", // red
+  "#8b5cf6", // purple
+  "#ec4899", // pink
+  "#06b6d4", // cyan
+  "#84cc16", // lime
+  "#f97316", // orange
+  "#6366f1", // indigo
 ];
 
 export default function Home() {
@@ -28,8 +28,9 @@ export default function Home() {
   const [clusters, setClusters] = useState<Cluster[]>([]);
   const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
   const [selectedCluster, setSelectedCluster] = useState<number | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [clusteringMethod, setClusteringMethod] = useState<ClusteringMethod>('kmeans');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [clusteringMethod, setClusteringMethod] =
+    useState<ClusteringMethod>("kmeans");
   const [nClusters, setNClusters] = useState(5);
   const [isClustering, setIsClustering] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,8 +77,8 @@ export default function Home() {
       setFilteredPapers(papersData);
       setClusters(clustersData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load data');
-      console.error('Error loading data:', err);
+      setError(err instanceof Error ? err.message : "Failed to load data");
+      console.error("Error loading data:", err);
     } finally {
       setIsLoading(false);
     }
@@ -90,8 +91,8 @@ export default function Home() {
       await api.clusterPapers(clusteringMethod, nClusters);
       await loadData();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to cluster papers');
-      console.error('Error clustering:', err);
+      setError(err instanceof Error ? err.message : "Failed to cluster papers");
+      console.error("Error clustering:", err);
     } finally {
       setIsClustering(false);
     }
@@ -126,17 +127,18 @@ export default function Home() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
             Digital Library Visualization
           </h1>
-          <p className="text-gray-600">
-            Interactive visualization of academic papers grouped by topic clusters
+          <p className="text-center text-gray-600">
+            Interactive visualization of academic papers grouped by topic
+            clusters
           </p>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-4 py-6">
         {error && (
           <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
             {error}
@@ -148,7 +150,7 @@ export default function Home() {
           {/* Left Sidebar - Filters */}
           <div className="lg:col-span-1 space-y-4">
             <SearchBar onSearch={handleSearch} />
-            
+
             <TopicFilter
               clusters={clustersWithColors}
               selectedCluster={selectedCluster}
@@ -158,7 +160,9 @@ export default function Home() {
 
             {/* Clustering Controls */}
             <div className="bg-white rounded-lg shadow-md p-4">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">Clustering</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                Clustering
+              </h3>
               <div className="space-y-3">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -166,7 +170,9 @@ export default function Home() {
                   </label>
                   <select
                     value={clusteringMethod}
-                    onChange={(e) => setClusteringMethod(e.target.value as ClusteringMethod)}
+                    onChange={(e) =>
+                      setClusteringMethod(e.target.value as ClusteringMethod)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="kmeans">K-means</option>
@@ -183,7 +189,9 @@ export default function Home() {
                     min="2"
                     max="20"
                     value={nClusters}
-                    onChange={(e) => setNClusters(parseInt(e.target.value) || 5)}
+                    onChange={(e) =>
+                      setNClusters(parseInt(e.target.value) || 5)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -192,14 +200,16 @@ export default function Home() {
                   disabled={isClustering}
                   className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                 >
-                  {isClustering ? 'Clustering...' : 'Re-cluster Papers'}
+                  {isClustering ? "Clustering..." : "Re-cluster Papers"}
                 </button>
               </div>
             </div>
 
             {/* Stats */}
             <div className="bg-white rounded-lg shadow-md p-4">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">Statistics</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                Statistics
+              </h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Total Papers:</span>
@@ -221,7 +231,9 @@ export default function Home() {
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="mb-4 flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-gray-800">Paper Visualization</h2>
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Paper Visualization
+                </h2>
                 <div className="text-sm text-gray-600">
                   Showing {filteredPapers.length} of {papers.length} papers
                 </div>
@@ -236,7 +248,9 @@ export default function Home() {
                 <div className="flex items-center justify-center h-96 text-gray-500">
                   <div className="text-center">
                     <p className="text-lg mb-2">No papers found</p>
-                    <p className="text-sm">Try adjusting your filters or search query</p>
+                    <p className="text-sm">
+                      Try adjusting your filters or search query
+                    </p>
                   </div>
                 </div>
               )}
@@ -247,9 +261,11 @@ export default function Home() {
 
       {/* Paper Detail Modal */}
       {selectedPaper && (
-        <PaperCard paper={selectedPaper} onClose={() => setSelectedPaper(null)} />
+        <PaperCard
+          paper={selectedPaper}
+          onClose={() => setSelectedPaper(null)}
+        />
       )}
     </div>
   );
 }
-

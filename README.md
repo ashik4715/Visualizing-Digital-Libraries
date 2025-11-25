@@ -70,13 +70,13 @@ python -m backend.data.sample_data_generator
 python -m backend.api.main
 ```
 
-The API will be available at `http://localhost:8000`
+The API will be available at `http://localhost:9000`
 
 ### API Explorer (Swagger UI)
 
-- Visit `http://localhost:8000/docs` for the interactive Swagger experience (the root URL redirects here automatically).
+- Visit `http://localhost:9000/docs` for the interactive Swagger experience (the root URL redirects here automatically).
 - Use it to try every endpoint, inspect request/response schemas, and share live API examples.
-- The raw OpenAPI schema is also available at `http://localhost:8000/openapi.json`.
+- The raw OpenAPI schema is also available at `http://localhost:9000/openapi.json`.
 
 ### Frontend Setup
 
@@ -92,7 +92,14 @@ cd frontend
 npm install
 ```
 
-3. Start the development server:
+3. Configure the frontend API URL (optional—defaults to `http://localhost:9000`):
+
+```bash
+cp frontend/env.example frontend/.env.local
+# update NEXT_PUBLIC_API_URL if your backend runs elsewhere/with HTTPS
+```
+
+4. Start the development server:
 
 ```bash
 npm run dev
